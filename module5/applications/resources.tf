@@ -63,7 +63,7 @@ resource "aws_autoscaling_group" "webapp_asg" {
     create_before_destroy = true
   }
 
-  vpc_zone_identifier   = ["${data.terraform_remote_state.networking.public_subnets}"]
+  vpc_zone_identifier   = ["${data.terraform_remote_state.networking.outputs.public_subnets}"]
   name                  = "ddt_webapp_asg"
   max_size              = "${data.external.configuration.result.asg_max_size}"
   min_size              = "${data.external.configuration.result.asg_min_size}"
