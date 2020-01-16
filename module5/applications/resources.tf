@@ -112,7 +112,7 @@ resource "aws_cloudwatch_metric_alarm" "scale_up_alarm" {
   }
 
   alarm_description = "EC2 CPU Utilization"
-  alarm_actions     = "${aws_autoscaling_policy.scale_up.arn}"
+  alarm_actions     = ["${aws_autoscaling_policy.scale_up.arn}"]
 }
 
 #
@@ -142,7 +142,7 @@ resource "aws_cloudwatch_metric_alarm" "scale_down_alarm" {
   }
 
   alarm_description = "EC2 CPU Utilization"
-  alarm_actions     = "${aws_autoscaling_policy.scale_down.arn}"
+  alarm_actions     = ["${aws_autoscaling_policy.scale_down.arn}"]
 }
 
 resource "aws_instance" "bastion" {
