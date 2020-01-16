@@ -22,7 +22,7 @@ resource "aws_security_group" "bastion_ssh_sg" {
 
   vpc_id = "${data.terraform_remote_state.networking.outputs.vpc_id}"
 
-  tags {
+  tags = {
     Name = "terraform_bastion_ssh"
   }
 }
@@ -61,7 +61,7 @@ resource "aws_security_group" "nat" {
 
   vpc_id = "${data.terraform_remote_state.networking.outputs.vpc_id}"
 
-  tags {
+  tags = {
     Name = "terraform"
   }
 }
@@ -125,7 +125,7 @@ resource "aws_security_group" "webapp_http_inbound_sg" {
 
   vpc_id = "${data.terraform_remote_state.networking.outputs.vpc_id}"
 
-  tags {
+  tags = {
     Name = "terraform_demo_webapp_http_inbound"
   }
 }
