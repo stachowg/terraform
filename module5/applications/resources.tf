@@ -70,7 +70,7 @@ resource "aws_autoscaling_group" "webapp_asg" {
   #wait_for_elb_capacity = false
   force_delete          = true
   launch_configuration  = "${aws_launch_configuration.webapp_lc.id}"
-  load_balancers        = "${aws_elb.webapp_elb.name}"
+  load_balancers        = "[${aws_elb.webapp_elb.name}"]
 
   tags  = "${
     list(
