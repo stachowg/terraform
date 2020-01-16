@@ -53,7 +53,7 @@ resource "aws_elb" "webapp_elb" {
     interval            = 10
   }
 
-  security_groups = "${aws_security_group.webapp_http_inbound_sg.id}"
+  security_groups = ["${aws_security_group.webapp_http_inbound_sg.id}"]
 
   tags = "${local.common_tags}"
 }
@@ -150,7 +150,7 @@ resource "aws_instance" "bastion" {
   instance_type               = "${data.external.configuration.result.asg_instance_size}"
   subnet_id                   = "${element(data.terraform_remote_state.networking.outputs.public_subnets,0)}"
   associate_public_ip_address = true
-  vpc_security_group_ids      = "${aws_security_group.bastion_ssh_sg.id}"
+  vpc_security_group_ids      = ["${aws_security_group.bastion_ssh_sg.id}"]
   key_name                    = "${var.key_name}"
 
   tags = "${merge(
