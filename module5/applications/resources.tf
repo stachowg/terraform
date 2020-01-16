@@ -168,7 +168,7 @@ resource "aws_eip" "bastion" {
 
 resource "aws_db_subnet_group" "db_subnet_group" {
   name       = "${terraform.workspace}-ddt-rds-subnet-group"
-  subnet_ids = ["${data.terraform_remote_state.networking.private_subnets}"]
+  subnet_ids = ["${data.terraform_remote_state.networking.private_subnets}.outputs.link"]
 }
 
 resource "aws_db_instance" "rds" {
