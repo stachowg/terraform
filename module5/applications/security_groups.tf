@@ -100,7 +100,7 @@ resource "aws_security_group" "web_access_from_nat_sg" {
 
   vpc_id = "${data.terraform_remote_state.networking.outputs.vpc_id}"
 
-  tags {
+  tags = {
     Name = "terraform"
   }
 }
@@ -143,7 +143,7 @@ resource "aws_security_group" "webapp_ssh_inbound_sg" {
 
   vpc_id = "${data.terraform_remote_state.networking.outputs.vpc_id}"
 
-  tags {
+  tags = {
     Name = "terraform_demo_webapp_ssh_inbound"
   }
 }
@@ -161,7 +161,7 @@ resource "aws_security_group" "webapp_outbound_sg" {
 
   vpc_id = "${data.terraform_remote_state.networking.outputs.vpc_id}"
 
-  tags {
+  tags = {
     Name = "terraform_demo_webapp_outbound"
   }
 }
@@ -171,7 +171,7 @@ resource "aws_security_group" "rds_sg" {
   description = "Allow inbound from web tier"
   vpc_id      = "${data.terraform_remote_state.networking.outputs.vpc_id}"
 
-  tags {
+  tags = {
     Name = "demo_rds_inbound"
   }
 
