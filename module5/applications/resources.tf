@@ -36,7 +36,7 @@ resource "aws_launch_configuration" "webapp_lc" {
 
 resource "aws_elb" "webapp_elb" {
   name    = "ddt-webapp-elb"
-  subnets = ["${data.terraform_remote_state.networking.outputs.public_subnets}"]
+  subnets = "${data.terraform_remote_state.networking.outputs.public_subnets}"
 
   listener {
     instance_port     = 80
@@ -53,7 +53,7 @@ resource "aws_elb" "webapp_elb" {
     interval            = 10
   }
 
-  security_groups = ["${aws_security_group.webapp_http_inbound_sg.id}"]
+  security_groups = "${aws_security_group.webapp_http_inbound_sg.id}"
 
   tags = "${local.common_tags}"
 }
@@ -63,14 +63,14 @@ resource "aws_autoscaling_group" "webapp_asg" {
     create_before_destroy = true
   }
 
-  vpc_zone_identifier   = ["${data.terraform_remote_state.networking.outputs.public_subnets}"]
+  vpc_zone_identifier   = "${data.terraform_remote_state.networking.outputs.public_subnets}"
   name                  = "ddt_webapp_asg"
   max_size              = "${data.external.configuration.result.asg_max_size}"
   min_size              = "${data.external.configuration.result.asg_min_size}"
   #wait_for_elb_capacity = false
   force_delete          = true
   launch_configuration  = "${aws_launch_configuration.webapp_lc.id}"
-  load_balancers        = ["${aws_elb.webapp_elb.name}"]
+  load_balancers        = "${aws_elb.webapp_elb.name}"
 
   tags  = "${
     list(
@@ -112,7 +112,7 @@ resource "aws_cloudwatch_metric_alarm" "scale_up_alarm" {
   }
 
   alarm_description = "EC2 CPU Utilization"
-  alarm_actions     = ["${aws_autoscaling_policy.scale_up.arn}"]
+  alarm_actions     = "${aws_autoscaling_policy.scale_up.arn}"
 }
 
 #
@@ -142,7 +142,7 @@ resource "aws_cloudwatch_metric_alarm" "scale_down_alarm" {
   }
 
   alarm_description = "EC2 CPU Utilization"
-  alarm_actions     = ["${aws_autoscaling_policy.scale_down.arn}"]
+  alarm_actions     = "${aws_autoscaling_policy.scale_down.arn}"
 }
 
 resource "aws_instance" "bastion" {
@@ -150,7 +150,7 @@ resource "aws_instance" "bastion" {
   instance_type               = "${data.external.configuration.result.asg_instance_size}"
   subnet_id                   = "${element(data.terraform_remote_state.networking.outputs.public_subnets,0)}"
   associate_public_ip_address = true
-  vpc_security_group_ids      = ["${aws_security_group.bastion_ssh_sg.id}"]
+  vpc_security_group_ids      = "${aws_security_group.bastion_ssh_sg.id}"
   key_name                    = "${var.key_name}"
 
   tags = "${merge(
@@ -168,7 +168,7 @@ resource "aws_eip" "bastion" {
 
 resource "aws_db_subnet_group" "db_subnet_group" {
   name       = "${terraform.workspace}-ddt-rds-subnet-group"
-  subnet_ids = ["${data.terraform_remote_state.networking.outputs.private_subnets}"]
+  subnet_ids = "${data.terraform_remote_state.networking.outputs.private_subnets}"
 }
 
 resource "aws_db_instance" "rds" {
