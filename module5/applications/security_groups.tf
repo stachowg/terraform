@@ -35,21 +35,21 @@ resource "aws_security_group" "nat" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["${data.terraform_remote_state.networking.outputs.private_subnets_cidr_blocks}"]
+    cidr_blocks = "${data.terraform_remote_state.networking.outputs.private_subnets_cidr_blocks}"
   }
 
   ingress {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = ["${data.terraform_remote_state.networking.outputs.private_subnets_cidr_blocks}"]
+    cidr_blocks = "${data.terraform_remote_state.networking.outputs.private_subnets_cidr_blocks}"
   }
 
   ingress {
     from_port   = -1
     to_port     = -1
     protocol    = "icmp"
-    cidr_blocks = ["${data.terraform_remote_state.networking.outputs.private_subnets_cidr_blocks}"]
+    cidr_blocks = "${data.terraform_remote_state.networking.outputs.private_subnets_cidr_blocks}"
   }
 
   egress {
@@ -74,21 +74,21 @@ resource "aws_security_group" "web_access_from_nat_sg" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["${data.terraform_remote_state.networking.outputs.public_subnets_cidr_blocks}"]
+    cidr_blocks = "${data.terraform_remote_state.networking.outputs.public_subnets_cidr_blocks}"
   }
 
   ingress {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
-    cidr_blocks = ["${data.terraform_remote_state.networking.outputs.public_subnets_cidr_blocks}"]
+    cidr_blocks = "${data.terraform_remote_state.networking.outputs.public_subnets_cidr_blocks}"
   }
 
   ingress {
     from_port   = -1
     to_port     = -1
     protocol    = "icmp"
-    cidr_blocks = ["${data.terraform_remote_state.networking.outputs.public_subnets_cidr_blocks}"]
+    cidr_blocks = "${data.terraform_remote_state.networking.outputs.public_subnets_cidr_blocks}"
   }
 
   egress {
@@ -188,7 +188,7 @@ resource "aws_security_group" "rds_sg" {
     from_port       = 3306
     to_port         = 3306
     protocol        = "tcp"
-    security_groups = ["${aws_security_group.webapp_http_inbound_sg.id}"]
+    security_groups = "${aws_security_group.webapp_http_inbound_sg.id}"
   }
 
   // outbound internet access
