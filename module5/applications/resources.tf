@@ -72,7 +72,7 @@ resource "aws_autoscaling_group" "webapp_asg" {
   launch_configuration  = "${aws_launch_configuration.webapp_lc.id}"
   load_balancers        = ["${aws_elb.webapp_elb.name}"]
 
-  tags  ["${
+  tags  = ["${
     list(
       map("key", "Name", "value", "ddt_webapp_asg", "propagate_at_launch", true),
       map("key", "environment", "value", "${data.external.configuration.result.environment}", "propagate_at_launch", true),
