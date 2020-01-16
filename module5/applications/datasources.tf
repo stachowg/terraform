@@ -24,7 +24,7 @@ data "terraform_remote_state" "networking" {
 
 data "aws_ami" "ubuntu" {
   most_recent = true
-  owners = ["amazon"] 
+  owners = ["self"] 
   
   filter {
     name   = "name"
@@ -41,10 +41,10 @@ data "aws_ami" "ubuntu" {
     values = ["hvm"]
   }
 
-  filter {
-    name   = "root-device-type"
-    values = ["ebs"]
-  }
+  #filter {
+  #  name   = "root-device-type"
+  #  values = ["ebs"]
+  #}
 }
 
 data "external" "configuration" {
