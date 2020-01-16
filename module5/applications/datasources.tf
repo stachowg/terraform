@@ -24,17 +24,17 @@ data "terraform_remote_state" "networking" {
 
 data "aws_ami" "ubuntu" {
   most_recent = true
-  owners = ["self"] 
+  #owners = ["amazon"] 
   
   filter {
     name   = "name"
     values = ["ubuntu/images/hvm-ssd/ubuntu-xenial-16.04-amd64-server*"]
   }
 
-  filter {
-    name   = "architecture"
-    values = ["x86"]
-  }
+  #filter {
+  #  name   = "architecture"
+  #  values = ["x86"]
+  #}
 
   filter {
     name   = "virtualization-type"
