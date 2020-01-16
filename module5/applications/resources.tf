@@ -36,7 +36,7 @@ resource "aws_launch_configuration" "webapp_lc" {
 
 resource "aws_elb" "webapp_elb" {
   name    = "ddt-webapp-elb"
-  subnets = ["${data.terraform_remote_state.networking.public_subnets}"]
+  subnets = ["${data.terraform_remote_state.networking.outputs.public_subnets}"]
 
   listener {
     instance_port     = 80
@@ -148,7 +148,7 @@ resource "aws_cloudwatch_metric_alarm" "scale_down_alarm" {
 resource "aws_instance" "bastion" {
   ami                         = "${data.aws_ami.ubuntu.id}"
   instance_type               = "${data.external.configuration.result.asg_instance_size}"
-  subnet_id                   = "${element(data.terraform_remote_state.networking.public_subnets,0)}"
+  subnet_id                   = "${element(data.terraform_remote_state.networking.outputs.public_subnets,0)}"
   associate_public_ip_address = true
   vpc_security_group_ids      = ["${aws_security_group.bastion_ssh_sg.id}"]
   key_name                    = "${var.key_name}"
